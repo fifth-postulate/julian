@@ -9,7 +9,7 @@
 
 *Warning*:  This is _alpha_ quality software.  APIs will change.  There are bugs.  Use with caution.  Time zones are not yet supported and semantics that should account for time zone choose arbitrary, unpredictable behavior.
 
-With that out of the way, the library can do a lot of useful stuff.
+With that out of the way, the library can do a lot of useful stuff.  See the [in-depth tutorial](http://mndrix.github.io/julian/) for examples.
 
 # Changes in this Version
 
