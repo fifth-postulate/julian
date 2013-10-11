@@ -73,7 +73,6 @@ datetime(Dt) :-
 %
 %       * `today` - the set of all nanoseconds in the local day
 %       * `now` - the current nanosecond
-%       * `sunday` - the set of all Sundays in history
 %       * `dow(tuesday)` - the set of all Tuesdays in history
 %       * `dow([saturday,sunday])` - set of all weekends in history
 %       * `weekday` - like `dow([monday,...,friday])` but faster
