@@ -7,9 +7,11 @@
 
 # Description
 
+*Warning*:  This is _alpha_ quality software.  APIs will change.  There are bugs.  Use with caution.
+
 # Changes in this Version
 
-  * ...
+  * Initial public release
 
 # Installation
 
