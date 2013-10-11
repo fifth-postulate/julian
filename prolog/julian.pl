@@ -2,17 +2,17 @@
                   , datetime/1
                   , datetime/3
                   , delta_time/3
-                  , dow_number/2
                   , form_time/2
                   , form_time/1
                   , gregorian/3
                   , month_number/2
                   ]).
+:- use_module(library(julian/util), [dow_number/2]).
 :- use_module(library(clpfd)).
 :- use_module(library(when), [when/2]).
 :- use_module(library(dcg/basics), [float//1, integer//1, string//1]).
 :- use_module(library(list_util), [xfy_list/3]).
-:- use_module(library(delay)).
+:- use_module(library(delay), [delay/1]).
 
 % many clpfd constraints trigger this warning.
 % disable it for now.
@@ -81,25 +81,6 @@ datetime(datetime(MJD, Nano), MJD, Nano) :-
 %	True if Datetime is a date time term.
 datetime(Dt) :-
     datetime(Dt, _, _).
-
-%%	dow_number(+DayOfWeek:atom, -Number:integer) is semidet.
-%%	dow_number(-DayOfWeek:atom, +Number:integer) is semidet.
-%%	dow_number(-DayOfWeek:atom, -Number:integer) is det.
-%
-%	True if Number is the ISO number for DayOfWeek.
-%	0 is Monday, 6 is Sunday.
-dow_number(DayOfWeek, Number) :-
-    when( ( ground(DayOfWeek) ; ground(Number) )
-        , dow_number_(DayOfWeek, Number)
-        ).
-dow_number_(monday,    0).
-dow_number_(tuesday,   1).
-dow_number_(wednesday, 2).
-dow_number_(thursday,  3).
-dow_number_(friday,    4).
-dow_number_(saturday,  5).
-dow_number_(sunday,    6).
-
 
 %%	month_number(+Month:atom, -Number:integer) is semidet.
 %%	month_number(-Month:atom, +Number:integer) is semidet.
@@ -207,7 +188,7 @@ form_time(weekday, Dt) :-
     (MJD+2) mod 7 #= DayNumber.
 form_time(dow(DayOfWeek), datetime(MJD, _)) :-
     (MJD+2) mod 7 #= DayNumber,
-    dow_number(DayOfWeek, DayNumber),
+    delay(dow_number(DayOfWeek, DayNumber)),
     !.
 form_time(month(Months), Dt) :-
     ground(Months),
