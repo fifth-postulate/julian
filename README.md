@@ -2,8 +2,12 @@
 
     :- use_module(library(julian)).
     main :-
-        % give one motivating example
-        true.
+        % Eisenhower presidency had Fourth of July on Sunday in ...
+        form_time([dow(sunday), Year-07-04]),
+        Year in 1953..1961,
+
+        % 1954
+        writeln(Year).
 
 # Description
 
