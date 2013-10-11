@@ -5,8 +5,8 @@
 %%	dow_number(-DayOfWeek:atom, -Number:integer) is multi.
 %
 %	True if Number is the ISO number for DayOfWeek.
-%   0 is Monday, 6 is Sunday. DayOfWeek is an atom like monday, tuesday,
-%   sunday, etc.
+%   0 is Monday, 6 is Sunday. DayOfWeek is an atom like `monday`,
+%   `tuesday`, `sunday`, etc.
 %
 %   This predicate supports `library(delay)`.
 :- multifile delay:mode/1.
