@@ -71,20 +71,20 @@ datetime(Dt) :-
 %
 %	Here are some acceptable values of Form.
 %
-%		* `today` - the set of all nanoseconds in the local day
-%		* `now` - the current nanosecond
-%		* `sunday` - the set of all Sundays in history
-%		* `dow(tuesday)` - the set of all Tuesdays in history
-%		* `dow([saturday,sunday])` - set of all weekends in history
-%		* `weekday` - like `dow([monday,...,friday])` but faster
-%		* `month(july)` - the set of all Julys in history
-%		* `month([june,july])` - the set of all Junes and Julys ever
-%		* `unix(EpochSeconds)` - floating point seconds since the Unix
-%		  epoch
-%		* `[foo,bar]` - both `foo` and `bar` forms apply
-%		* `gregorian(Year,Month,Day)` - all seconds in a Gregorian
-%		  date of the given form.  For example, `gregorian(_,3,_)`
-%		  represents the set of all the months of March in history.
+%       * `today` - the set of all nanoseconds in the local day
+%       * `now` - the current nanosecond
+%       * `sunday` - the set of all Sundays in history
+%       * `dow(tuesday)` - the set of all Tuesdays in history
+%       * `dow([saturday,sunday])` - set of all weekends in history
+%       * `weekday` - like `dow([monday,...,friday])` but faster
+%       * `month(july)` - the set of all Julys in history
+%       * `month([june,july])` - the set of all Junes and Julys ever
+%       * `unix(EpochSeconds)` - floating point seconds since the Unix
+%         epoch
+%       * `[foo,bar]` - both `foo` and `bar` forms apply
+%       * `gregorian(Year,Month,Day)` - all seconds in a Gregorian
+%	  date of the given form.  For example, `gregorian(_,3,_)`
+%	  represents the set of all the months of March in history.
 %       * `Year-Month-Day` - same as `gregorian(Year,Month,Day)`
 %       * `Hours:Minutes:Seconds`
 %       * `midnight` - shortcut for `00:00:00`
