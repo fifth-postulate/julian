@@ -55,7 +55,7 @@ datetime(datetime(MJD, Nano), MJD, Nano) :-
 
 %%	datetime(?Datetime) is semidet.
 %
-%	True if Datetime is a date time term.
+%	True if Datetime is a datetime term.
 datetime(Dt) :-
     datetime(Dt, _, _).
 
@@ -69,9 +69,9 @@ datetime(Dt) :-
 %	also the workhorse for further constraining a datetime
 %	value.
 %
-%	Here are some values for Form.
+%	Here are some acceptable values of Form.
 %
-%		* `today` - the set of all seconds in the local day
+%		* `today` - the set of all nanoseconds in the local day
 %		* `now` - the current nanosecond
 %		* `sunday` - the set of all Sundays in history
 %		* `dow(tuesday)` - the set of all Tuesdays in history
@@ -81,7 +81,7 @@ datetime(Dt) :-
 %		* `month([june,july])` - the set of all Junes and Julys ever
 %		* `unix(EpochSeconds)` - floating point seconds since the Unix
 %		  epoch
-%		* `[foo,bar]` - both `foo` and `bar` constraints apply
+%		* `[foo,bar]` - both `foo` and `bar` forms apply
 %		* `gregorian(Year,Month,Day)` - all seconds in a Gregorian
 %		  date of the given form.  For example, `gregorian(_,3,_)`
 %		  represents the set of all the months of March in history.
@@ -104,9 +104,9 @@ datetime(Dt) :-
 %       * `Datetime` - a datetime itself can be used as a form
 %       * `mjn(Mjn)` - modified Julian nanoseconds
 %
-%	This predicate
-%	is multifile because other modules might support different
-%	calendars, different holiday schedules, etc.
+%
+%   This predicate is multifile because other modules can support
+%   different calendars, different holiday schedules, extra sugar, etc.
 :- multifile form_time/2.
 form_time(Var, _) :-
     var(Var),
