@@ -4,9 +4,8 @@
                   , delta_time/3
                   , form_time/2
                   , form_time/1
-                  , gregorian/3
-                  , month_number/2
                   ]).
+:- use_module(library(julian/calendar/gregorian), [gregorian/3, month_number/2]).
 :- use_module(library(julian/util), [dow_number/2]).
 :- use_module(library(clpfd)).
 :- use_module(library(when), [when/2]).
@@ -33,28 +32,6 @@
 % datetime arithmetic predicates, although I've not yet done
 % that below.
 
-%%	gregorian(?Year, ?Month, ?Day) is det.
-%
-%	True if Year, Month and Day form a valid date in the Gregorian
-%	calendar.  For example, one could iterate all leap years
-%	since 1950 with this:
-%
-%	==
-%	gregorian(Y, 2, 29), Y #> 1950, indomain(Y).
-%	==
-%
-%	Because it just constrains Year, Month and Day to have the
-%	proper relation one to another, one can bind as many or
-%	as few of the arguments as desired.
-gregorian(Y,M,D) :-
-    Y in -4713..3267,
-    M in 1..12,
-    (   (D in 1..28)
-    #\/ (M #\= 2 #/\ D in 29..30)
-    #\/ (M in 1 \/ 3 \/ 5 \/ 7 \/ 8 \/ 10 \/ 12 #/\ D #= 31)
-    #\/ (M #= 2 #/\ D #= 29 #/\ Y mod 400 #= 0)
-    #\/ (M #= 2 #/\ D #= 29 #/\ Y mod 4 #= 0 #/\ Y mod 100 #\= 0)
-    ).
 
 %%	mjd(?MJD:integer) is semidet.
 %
@@ -81,29 +58,6 @@ datetime(datetime(MJD, Nano), MJD, Nano) :-
 %	True if Datetime is a date time term.
 datetime(Dt) :-
     datetime(Dt, _, _).
-
-%%	month_number(+Month:atom, -Number:integer) is semidet.
-%%	month_number(-Month:atom, +Number:integer) is semidet.
-%%	month_number(-Month:atom, -Number:integer) is det.
-%
-%   True if Number is the number for Month. 1 is January, 12 is
-%   December.
-month_number(Month, Number) :-
-    when( ( ground(Month) ; ground(Number) )
-        , month_number_(Month, Number)
-        ).
-month_number_(january,   1).
-month_number_(february,  2).
-month_number_(march,     3).
-month_number_(april,     4).
-month_number_(may,       5).
-month_number_(june,      6).
-month_number_(july,      7).
-month_number_(august,    8).
-month_number_(september, 9).
-month_number_(october,  10).
-month_number_(november, 11).
-month_number_(december, 12).
 
 
 %%	form_time(?Form, ?Datetime)
@@ -200,7 +154,7 @@ form_time(month(Months), Dt) :-
     MonthNumber in Domain,
     form_time(gregorian(_,MonthNumber,_), Dt).
 form_time(month(Month), Dt) :-
-    month_number(Month, Number),
+    delay(month_number(Month, Number)),
     form_time(gregorian(_,Number,_), Dt).
 form_time(Year-Month-Day, Dt) :-
     !,

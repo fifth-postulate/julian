@@ -1,5 +1,6 @@
 % vim: ft=prolog
 :- use_module(library(julian)).
+:- use_module(library(julian/calendar/gregorian)).
 :- use_module(library(tap)).
 
 % Correct dates in the Gregorian calendar
