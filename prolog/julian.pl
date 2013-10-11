@@ -6,9 +6,7 @@
                   , form_time/2
                   , form_time/1
                   , gregorian/3
-                  , mjd/1
                   , month_number/2
-                  , nano/1
                   ]).
 :- use_module(library(clpfd)).
 :- use_module(library(when), [when/2]).
