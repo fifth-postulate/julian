@@ -1,7 +1,9 @@
 :- module(julian, [ compare_time/3
+                  , date/1
                   , datetime/1
                   , datetime/3
                   , delta_time/3
+                  , findall_dates/2
                   , form_time/2
                   , form_time/1
                   ]).
@@ -265,16 +267,17 @@ circular_nth0(Index0, List, Element) :-
     plus(Index0, Len, Index),
     nth0(Index, List, Element).
 
-%%	findall_dates(+Dt, -Dts:list)
+%%  findall_dates(+Dt, -Dts:list)
 %
 %   True if Dts is all individual days in the set Dt. Dts is in order
 %   from oldest to most recent.
 findall_dates(Dt, Dts) :-
     findall(Dt, date(Dt), Dts).
 
-%%	date(?Dt) is nondet.
+%%  date(?Dt) is nondet.
 %
-%	Assign a single date based on the constraints of Dt.
+%   Assign a single date based on the constraints of Dt.  This can
+%   be used to iterate all values of Dt.
 date(Dt) :-
     datetime(Dt, MJD, _),
     labeling([leftmost,up,bisect], [MJD]).
