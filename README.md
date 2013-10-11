@@ -1,6 +1,7 @@
 # Synopsis
 
     :- use_module(library(julian)).
+    :- use_module(library(clpfd)).
     main :-
         % Eisenhower presidency had Fourth of July on Sunday in ...
         form_time([dow(sunday), Year-07-04]),
