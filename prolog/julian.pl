@@ -167,7 +167,7 @@ form_time(gregorian(Year, Month, Day), Dt) :-
     E #= 4 * ((194800*MJD+467785976025)/194796) + 3,
     H #= mod(E, 1461)/4*5 + 2,
     Day #= mod(H, 153)/5 + 1,
-    Month #= mod((H+306)/153, 12) + 1,
+    Month #= mod(H/153+2, 12) + 1,
     Year #= E/1461 + (14 - Month)/12 - 4716,
     ( ground(MJD) ->
         labeling([ff, up, bisect], [Year, Month, Day])
