@@ -165,8 +165,8 @@ form_time(gregorian(Year, Month, Day), Dt) :-
     datetime(Dt, MJD, _Nano),
     !,
     E #= 4 * ((194800*MJD+467785976025)/194796) + 3,
-    H #= 5 * (mod(E, 1461)/4) + 2,
-    Day #= (mod(H, 153))/5 + 1,
+    H #= mod(E, 1461)/4*5 + 2,
+    Day #= mod(H, 153)/5 + 1,
     Month #= mod(H/153 + 2, 12) + 1,
     Year #= E/1461 - 4716 + (12 + 2 - Month)/12,
     ( ground(MJD) ->
