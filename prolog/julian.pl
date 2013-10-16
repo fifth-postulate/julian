@@ -164,15 +164,14 @@ form_time(gregorian(Year, Month, Day), Dt) :-
     gregorian(Year, Month, Day),
     datetime(Dt, MJD, _Nano),
     !,
-    F0 #= JD + 1401,
-    F1 #= F0 + (((4 * JD + 274277)/146097) * 3)/4 - 38,
+    F0 #= (MJD + 2400001) + 1401,
+    F1 #= F0 + (((4 * (MJD + 2400001) + 274277)/146097) * 3)/4 - 38,
     E #= 4 * F1 + 3,
     G #= mod(E, 1461)/4,
     H #= 5 * G + 2,
     Day #= (mod(H, 153))/5 + 1,
     Month #= mod(H/153 + 2, 12) + 1,
     Year #= E/1461 - 4716 + (12 + 2 - Month)/12,
-    MJD #= JD - 2400001,
     ( ground(MJD) ->
         labeling([ff, up, bisect], [Year, Month, Day])
     ; ground(Year), ground(Month), ground(Day) ->
