@@ -119,7 +119,6 @@ form_time([H|T], Dt) :-
     form_time(H, Dt),
     form_time(T, Dt).
 form_time(true, Dt) :-
-    !,
     datetime(Dt).
 form_time(today, Dt) :-
     get_time(Now),
@@ -163,7 +162,6 @@ form_time(Year-Month-Day, Dt) :-
 form_time(gregorian(Year, Month, Day), Dt) :-
     gregorian(Year, Month, Day),
     datetime(Dt, MJD, _Nano),
-    !,
     E #= 4 * ((194800*MJD+467785976025)/194796) + 3,
     H #= mod(E, 1461)/4*5 + 2,
     Day #= mod(H, 153)/5 + 1,
@@ -214,7 +212,6 @@ form_time(before(Form), Dt) :-
 form_time(nth(Ns0,Form), Dt) :-
     nonvar(Form),
     datetime(Dt),
-    !,  % no other form_time/2 clause will work
     form_time(Year-Month-_, Dt),
     form_time([Year-Month-_, Form], X),
     findall_dates(X, Dates),
