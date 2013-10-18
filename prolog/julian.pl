@@ -167,9 +167,8 @@ form_time(gregorian(Year, Month, Day), Dt) :-
     Day #= mod(H, 153)/5 + 1,
     Month #= mod(H/153+2, 12) + 1,
     Year #= E/1461 + (14 - Month)/12 - 4716,
-    ( ground(MJD) ->
-        labeling([ff, up, bisect], [Year, Month, Day])
-    ; ground(Year), ground(Month), ground(Day) ->
+
+    ( ground(Year), ground(Month), ground(Day), var(MJD) ->
         labeling([leftmost, up, bisect], [MJD])
     ; true
     ).
