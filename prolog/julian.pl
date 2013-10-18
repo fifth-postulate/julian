@@ -168,9 +168,11 @@ form_time(gregorian(Year, Month, Day), Dt) :-
     Month #= mod(H/153+2, 12) + 1,
     Year #= E/1461 + (14 - Month)/12 - 4716,
 
+    % help clpfd in cases we know can be resolved better
     ( ground(Year), ground(Month), ground(Day), var(MJD) ->
         labeling([leftmost, up, bisect], [MJD])
-    ; true
+    ; true ->
+        when(ground(Year), ignore(contract_mjd(Year,Month,MJD)))
     ).
 form_time(Hours:Minutes:FloatSeconds, datetime(_, Nanos)) :-
     Second = 1_000_000_000,
@@ -234,6 +236,23 @@ form_time(rfc3339(Codes), Dt) :-
 %	    form_time([1979-05-01,dow(tuesday)])
 form_time(Form) :-
     form_time(Form, _).
+
+
+% Gregorian date calculations use large numbers and many mod/2
+% constraints. That combination makes it inefficient for clpfd to
+% propagate constraints perfectly. We could call clpfd:contracting/1
+% to contract MJD's domain, but that's relatively slow. Fortunately,
+% these problems only seem to arise in cases like Note_compare. When the
+% Year is known, we have a very efficient way of finding the lower and
+% upper bound for MJD. The lower is January 1st. The upper is December
+% 31st.
+% Fails if this optimization doesn't apply.
+contract_mjd(Year,Month,MJD) :-
+    ground(Year),
+    var(Month),  % no point in optimization if ground(Month)
+    form_time(gregorian(Year,1,1), datetime(MinMJD,_)),
+    form_time(gregorian(Year,12,31), datetime(MaxMJD,_)),
+    MJD in MinMJD..MaxMJD.
 
 
 % TODO factor this out to list_util and use delay:length/2 and
