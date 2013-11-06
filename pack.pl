@@ -1,5 +1,5 @@
 name(julian).
-version('0.0.1').
+version('0.1.0').
 title('Date and time library').
 
 requires(list_util).
@@ -10,4 +10,4 @@ packager('Michael Hendricks','michael@ndrix.org').
 maintainer('Michael Hendricks','michael@ndrix.org').
 
 home('http://packs.ndrix.com/julian/index.html').
-download('http://packs.ndrix.com/julian/julian-0.0.1.tgz').
+download('http://packs.ndrix.com/julian/julian-0.1.0.tgz').
