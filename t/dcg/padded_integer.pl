@@ -2,6 +2,8 @@
 :- use_module(library(julian)).
 :- use_module(library(tap)).
 
+:- set_prolog_flag(double_quotes, codes).
+
 'parsing a four digit year' :-
     phrase(julian:padded_integer(4,N), "2013"),
     N =:= 2013.

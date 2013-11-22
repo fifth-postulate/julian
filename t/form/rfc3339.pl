@@ -2,6 +2,8 @@
 :- use_module(library(julian)).
 :- use_module(library(tap)).
 
+:- set_prolog_flag(double_quotes, codes).
+
 parsing :-
     form_time(rfc3339("2013-07-26T17:58:08.000Z"), Dt),
     form_time(2013-07-26, Dt),

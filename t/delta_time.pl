@@ -2,6 +2,8 @@
 :- use_module(library(julian)).
 :- use_module(library(tap)).
 
+:- set_prolog_flag(double_quotes, codes).
+
 'ns(_) : precise times' :-
     form_time(rfc3339("2000-01-02T03:04:05.0678"), A),
     form_time(rfc3339("2001-02-03T04:05:06.0789"), B),
