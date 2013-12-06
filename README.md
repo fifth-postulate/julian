@@ -18,9 +18,8 @@ With that out of the way, the library can do a lot of useful stuff.  See the [in
 
 # Changes in this Version
 
-  * Better constraint propagation
-  * Simplify internal date constraints
-  * Improved documentation
+  * Make the nth/2 form 10x faster when used with dow/1
+  * Make test suite compatible with SWI 7
 
 # Installation
 
