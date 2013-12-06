@@ -213,6 +213,20 @@ form_time(before(Form), Dt) :-
 form_time(nth(Ns0,Form), Dt) :-
     nonvar(Form),
     datetime(Dt),
+    ( Form = dow(Dow), integer(Ns0) ->
+        nth_dow(Dt,Dow,Ns0)
+    ; % general case ->
+        nth_generic(Dt, Form, Ns0)
+    ).
+form_time(datetime(Mjd,Nano), datetime(Mjd,Nano)).
+form_time(rfc3339(Codes), Dt) :-
+    form_time([Y-Mon-D, H:Min:S], Dt),
+    when( ( ground(Dt) ; ground(Codes) )
+        , once(phrase(rfc3339(Y,Mon,D,H,Min,S,_), Codes))
+        ).
+
+% handle general case of nth/2 form
+nth_generic(Dt,Form,Ns0) :-
     form_time(Year-Month-_, Dt),
     form_time([Year-Month-_, Form], X),
     findall_dates(X, Dates),
@@ -220,12 +234,20 @@ form_time(nth(Ns0,Form), Dt) :-
     member(N0, Ns),
     ( N0 > 0 -> N is N0-1 ; N=N0 ),
     circular_nth0(N, Dates, Dt).
-form_time(datetime(Mjd,Nano), datetime(Mjd,Nano)).
-form_time(rfc3339(Codes), Dt) :-
-    form_time([Y-Mon-D, H:Min:S], Dt),
-    when( ( ground(Dt) ; ground(Codes) )
-        , once(phrase(rfc3339(Y,Mon,D,H,Min,S,_), Codes))
-        ).
+
+% optimization of nth/2 for dow/1 second argument
+nth_dow(Dt,Dow,N) :-
+    % constrain to the proper day of the week
+    form_time(dow(Dow), Dt),
+
+    % constrain day to the proper place within the month
+    Day1 in 1..7,
+    Day - (N-1)*7 #= Day1,
+    form_time(_-_-Day, Dt),
+
+    % help clpfd recognize opportunities to contract
+    datetime(Dt, MJD, _),
+    clpfd:contracting([MJD]).
 
 
 %%	form_time(+Form) is semidet.
