@@ -3,6 +3,7 @@ title('Date and time library').
 
 requires(list_util).
 requires(delay).
+requires(typedef).
 
 version('0.1.1').
 download('http://packs.ndrix.com/julian/julian-0.1.1.tgz').

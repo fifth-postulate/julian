@@ -9,7 +9,10 @@
                   ]).
 :- use_module(library(julian/calendar/gregorian), [gregorian/3, month_number/2]).
 :- use_module(library(julian/util), [dow_number/2]).
+
 :- use_module(library(clpfd)).
+:- use_module(library(error), []).
+:- use_module(library(typedef)).
 :- use_module(library(when), [when/2]).
 :- use_module(library(dcg/basics), [float//1, integer//1, string//1]).
 :- use_module(library(list_util), [xfy_list/3]).
@@ -18,6 +21,17 @@
 % many clpfd constraints trigger this warning.
 % disable it for now.
 :- style_check(-no_effect).
+
+% define types
+:- multifile error:has_type/2.
+error:has_type(datetime, Dt) :-
+    datetime(Dt).
+:- type duration ---> days(integer)
+                    ; s(integer)
+                    ; ms(integer)
+                    ; ns(integer)
+                    .
+
 
 % This module represents times, dates and sets of those using
 % terms of the form =|datetime(MJD, Nano)|=.  =MJD= is an
@@ -47,7 +61,8 @@ mjd(MJD) :-
 nano(Nano) :-
     Nano in 0 .. 86_399_999_999_999.
 
-%%	datetime(?Datetime, ?MJD, ?Nano) is semidet.
+%%  datetime(?Datetime:datetime, ?MJD:positive_integer,
+%%  ?Nano:positive_integer) is semidet.
 %
 %   True if Datetime falls on modified Julian day MJD and occurs Nano
 %   nanoseconds after midnight.
@@ -62,7 +77,7 @@ datetime(Dt) :-
     datetime(Dt, _, _).
 
 
-%%	form_time(?Form, ?Datetime)
+%%	form_time(?Form, ?Datetime:datetime)
 %
 %	True if Datetime can be described by Form.  Form is
 %	a sugary representation of a set of datetimes.  This
@@ -288,14 +303,14 @@ circular_nth0(Index0, List, Element) :-
     plus(Index0, Len, Index),
     nth0(Index, List, Element).
 
-%%  findall_dates(+Dt, -Dts:list)
+%%  findall_dates(+Dt:datetime, -Dts:list)
 %
 %   True if Dts is all individual days in the set Dt. Dts is in order
 %   from oldest to most recent.
 findall_dates(Dt, Dts) :-
     findall(Dt, date(Dt), Dts).
 
-%%  date(?Dt) is nondet.
+%%  date(?Dt:datetime) is nondet.
 %
 %   Assign a single date based on the constraints of Dt.  This can
 %   be used to iterate all values of Dt.
@@ -370,8 +385,8 @@ rfc3339(Y,Mon,D,H,Min,S,Zone) -->
     { gregorian(Y,Mon,D) }.
 
 
-%%	compare_time(+Order, ?A, ?B) is semidet.
-%%	compare_time(-Order, ?A, ?B) is nondet.
+%%	compare_time(+Order, ?A:datetime, ?B:datetime) is semidet.
+%%	compare_time(-Order, ?A:datetime, ?B:datetime) is nondet.
 %
 %	True if the chronological relation between A and B is described by Order.
 %	None of the arguments needs to be bound.  When Order is not bound,
@@ -419,7 +434,7 @@ for each one.  The `findall(...),member(...)` construct behaves like that.
 */
 
 
-%%	delta_time(?A, ?Delta, ?B)
+%%	delta_time(?A:datetime, ?Delta:duration, ?B:datetime)
 %
 %	True if datetime A plus duration Delta equals datetime B.
 %	Delta is a compound term representing a duration in various
