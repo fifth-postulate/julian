@@ -111,7 +111,7 @@ datetime(Dt) :-
 %       * `future` - alias for `after(now)`
 %       * `past` - alias for `before(now)`
 %       * `rfc3339(Text)` - the nanosecond indicated by the RFC 3339
-%         date string.  Text can be atom or codes.
+%         date string.  Text can be atom or codes or string.
 %       * `nth(N,Form)` - Nth day (1-based) that matches Form in the
 %         month.  N can be a list of days in which case form_time/2
 %         is multi.  This form isn't yet as flexible in different modes
@@ -234,11 +234,21 @@ form_time(nth(Ns0,Form), Dt) :-
         nth_generic(Dt, Form, Ns0)
     ).
 form_time(datetime(Mjd,Nano), datetime(Mjd,Nano)).
-form_time(rfc3339(Codes), Dt) :-
-    form_time([Y-Mon-D, H:Min:S], Dt),
-    when( ( ground(Dt) ; ground(Codes) )
-        , once(phrase(rfc3339(Y,Mon,D,H,Min,S,_), Codes))
-        ).
+form_time(rfc3339(Text0), Dt) :-
+    ( ground(Text0) ->
+        ( is_list(Text0) -> string_codes(Text,Text0); Text=Text0 ),
+        parse_time(Text,iso_8601,Epoch),
+        form_time(unix(Epoch),Dt)
+    ; ground(Dt) ->
+        form_time(unix(Epoch),Dt),
+        stamp_date_time(Epoch,DateTime,'UTC'),
+        Frac is Epoch - floor(Epoch),  % are there fractional seconds
+        ( Frac > 0 -> Format="%FT%T.%6f"; Format="%FT%T" ),
+        format_time(codes(Text0),Format,DateTime)
+    ; true ->
+        when(ground(Text0);ground(Dt), form_time(rfc3339(Text0),Dt))
+    ).
+
 
 % handle general case of nth/2 form
 nth_generic(Dt,Form,Ns0) :-
@@ -336,53 +346,6 @@ seconds_nanos_(Seconds, Nanos) :-
 seconds_nanos_(Seconds, Nanos) :-
     integer(Nanos),
     Seconds is Nanos / 1_000_000_000.
-
-
-% padded_integer(W,N)//
-%
-% Describes a zero-padded integer N in a field exactly W characters
-% wide.
-padded_integer(W,N) -->
-    { digit_len(N, DigitLen) },
-    { delay(plus(PadLen, DigitLen, W)) },
-    count(PadLen, 0'0),
-    integer(N),
-    !.
-
-
-count(N0, X) -->
-    { delay(succ(N, N0)) },
-    [X],
-    count(N, X).
-count(0, _, L, L).
-
-
-digit_len(N, Length) :-
-    when(ground(N), digit_len_(N,Length)).
-digit_len_(N, Length) :-
-    ( N =:= 0 ->
-        Length = 1
-    ; % otherwise ->
-        Length is floor(log10(N)) + 1
-    ).
-
-
-rfc3339(Y,Mon,D,H,Min,S,Zone) -->
-    padded_integer(4, Y),
-    "-",
-    padded_integer(2, Mon),
-    "-",
-    padded_integer(2, D),
-    "T",
-    padded_integer(2, H),
-    ":",
-    padded_integer(2, Min),
-    ":",
-    ( float(S) ; padded_integer(2, S) ),
-    string(Zone),
-
-    % and it must be a valid gregorian date
-    { gregorian(Y,Mon,D) }.
 
 
 %%	compare_time(+Order, ?A:datetime, ?B:datetime) is semidet.

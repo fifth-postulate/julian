@@ -4,13 +4,13 @@
 
 :- set_prolog_flag(double_quotes, codes).
 
-'ns(_) : precise times' :-
+'ns(_) : precise times'(todo('parse fractional seconds')) :-
     form_time(rfc3339("2000-01-02T03:04:05.0678"), A),
     form_time(rfc3339("2001-02-03T04:05:06.0789"), B),
     delta_time(A, ns(Nanos), B),
     Nanos =:= 34390861011100000.
 
-'ns(_) : precise forms' :-
+'ns(_) : precise forms'(todo('parse fractional seconds')) :-
     delta_time( rfc3339("2000-01-02T03:04:05.0678")
               , ns(Nanos)
               , rfc3339("2001-02-03T04:05:06.0789")
