@@ -18,8 +18,8 @@ With that out of the way, the library can do a lot of useful stuff.  See the [in
 
 # Changes in this Version
 
-  * Make the nth/2 form 10x faster when used with dow/1
-  * Make test suite compatible with SWI 7
+  * 200x faster parsing of RFC 3339 timestamps
+  * Add type annotations to clarify docs
 
 # Installation
 
