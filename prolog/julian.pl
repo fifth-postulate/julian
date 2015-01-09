@@ -177,11 +177,11 @@ form_time(Year-Month-Day, Dt) :-
 form_time(gregorian(Year, Month, Day), Dt) :-
     gregorian(Year, Month, Day),
     datetime(Dt, MJD, _Nano),
-    E #= 4 * ((194800*MJD+467785976025)/194796) + 3,
-    H #= mod(E, 1461)/4*5 + 2,
-    Day #= mod(H, 153)/5 + 1,
-    Month #= mod(H/153+2, 12) + 1,
-    Year #= E/1461 + (14 - Month)/12 - 4716,
+    E #= 4 * ((194800*MJD+467785976025)//194796) + 3,
+    H #= mod(E, 1461)//4*5 + 2,
+    Day #= mod(H, 153)//5 + 1,
+    Month #= mod(H//153+2, 12) + 1,
+    Year #= E//1461 + (14 - Month)//12 - 4716,
 
     % help clpfd in cases we know can be resolved better
     ( ground(Year), ground(Month), ground(Day), var(MJD) ->
@@ -205,7 +205,7 @@ form_time(final_moment, Dt) :-
 form_time(unix(UnixEpochSeconds), datetime(Days, Nanos)) :-
     DayInNanos = 86_400_000_000_000,
     seconds_nanos(UnixEpochSeconds, N),
-    ExtraDays #= N / DayInNanos,
+    ExtraDays #= N // DayInNanos,
     ExtraNanos #= N rem DayInNanos,
 
     % form_time([1970-01-01,00:00:00], datetime(40587,0))
@@ -423,12 +423,12 @@ delta_time_(A,ns(Nanos),B) :-
     Nanos #= MjnB - MjnA,
     !.
 delta_time_(A,ms(Millis),B) :-
-    Millis #= Nanos / 1_000_000,
+    Millis #= Nanos // 1_000_000,
     delta_time_(A,ns(Nanos),B),
     once(label([Nanos])),  % decide rounding ambiguity
     !.
 delta_time_(A,s(Seconds),B) :-
-    Seconds #= Nanos / 1_000_000_000,
+    Seconds #= Nanos // 1_000_000_000,
     delta_time_(A,ns(Nanos),B),
     once(label([Nanos])),  % decide rounding ambiguity
     !.
