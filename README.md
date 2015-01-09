@@ -16,14 +16,9 @@
 
 With that out of the way, the library can do a lot of useful stuff.  See the [in-depth tutorial](http://mndrix.github.io/julian/) for examples.
 
-# Changes in this Version
-
-  * 200x faster parsing of RFC 3339 timestamps
-  * Add type annotations to clarify docs
-
 # Installation
 
-Using SWI-Prolog 6.3 or later:
+Using SWI-Prolog 7.1.18 or later:
 
     ?- pack_install(julian).
 
