@@ -31,6 +31,32 @@ This module uses [semantic versioning][versioning].
 
 Source code available and pull requests accepted at [`http://github.com/fifth-postulate/julian`][project]
 
+## Development
+
+### Testing
+Test are written with the _Test Anything Protocol_ ([TAP][tap]) and use the [`fnogatz/tap`][pack(tap)] library.
+
+To install the tap pack run
+
+```prolog
+?- pack_install(tap).
+```
+
+A TAP test harness should be used to run the tests in this project. To run the `t/types.pl` test on could execute
+
+```sh
+prove -v -e 'swipl -q -t main -s' t/types.pl
+```
+
+To run all test one could use
+
+```sh
+prove -v -e 'swipl -q -t main -s' t/**.pl
+```
+
+
 [tutorial]: http://fifth-postulate.github.io/julian/
 [versioning]: http://semver.org/
-[project]: http://github.com/fifth-postulate/julian`
+[project]: http://github.com/fifth-postulate/julian
+[tap]: http://testanything.org/tap-specification.html
+[pack(tap)]: https://github.com/fnogatz/tap
