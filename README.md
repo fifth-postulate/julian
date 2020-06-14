@@ -42,6 +42,13 @@ To install the tap pack run
 ?- pack_install(tap).
 ```
 
+Next, the `julian` pack should be available as a library. One can install from the local installation by running
+
+
+```prolog
+?- pack_install('file:///home/<path-to-project>/julian').
+```
+
 A TAP test harness should be used to run the tests in this project. To run the `t/types.pl` test on could execute
 
 ```sh
