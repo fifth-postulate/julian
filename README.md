@@ -61,6 +61,8 @@ To run all test one could use
 prove -v -e 'swipl -q -t main -s' t/**.pl
 ```
 
+Or use `make tests`.
+
 
 [tutorial]: http://fifth-postulate.github.io/julian/
 [versioning]: http://semver.org/
