@@ -2,5 +2,6 @@ before_script:
   - sudo apt-add-repository ppa:swi-prolog/stable -y
   - sudo apt-get update -q
   - sudo apt-get install swi-prolog-nox
+  - swipl -g 'pack_install(julian),halt.'
 
 script: make tests
