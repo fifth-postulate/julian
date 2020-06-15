@@ -3,6 +3,6 @@ before_script:
   - sudo apt-get update -q
   - sudo apt-get install swi-prolog-nox
   - swipl -g 'pack_install(julian, [interactive(false)]),halt.'
-  - swipl -g 'pack_install(julian, [interactive(false)]),halt.'
+  - swipl -g 'pack_install(tap, [interactive(false)]),halt.'
 
 script: make tests
