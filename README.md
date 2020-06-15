@@ -1,4 +1,4 @@
-# julian
+# julian [![Build Status](https://travis-ci.org/fifth-postulate/julian.svg?branch=main)](https://travis-ci.org/fifth-postulate/julian)
 A date and time library for Prolog.
 
 *Warning*:  This is _alpha_ quality software.  APIs will change.  There are bugs.  Use with caution.  Time zones are not yet supported and semantics that should account for time zone choose arbitrary, unpredictable behavior.
