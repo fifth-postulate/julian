@@ -1,8 +1,3 @@
----
-layout: default
-title: Date and time library for Prolog
----
-
 ### Introduction
 
 `library(julian)` is a date and time library for Prolog.  It allows one to parse, generate and work with dates and times.

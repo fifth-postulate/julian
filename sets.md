@@ -1,8 +1,3 @@
----
-layout: default
-title: Tutorial - Time Sets
----
-
 ### More Than 1 Nanosecond
 
 Not all times we care about represent a single nanosecond.  For example, we speak of "today" and "the year 1973", each of which represents _many_ nanoseconds.  Julian can represent those too:

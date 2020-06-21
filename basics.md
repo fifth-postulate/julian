@@ -1,8 +1,3 @@
----
-layout: default
-title: Tutorial - Basics
----
-
 ### Model of Time
 
 Julian thinks of time as an sequence of nanoseconds extending forever into the past and forever into the future.

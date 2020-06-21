@@ -1,8 +1,3 @@
----
-layout: default
-title: Tutorial - Constraints
----
-
 ### Beyond `form_time`
 
 [form_time/2](http://www.swi-prolog.org/pack/file_details/julian/prolog/julian.pl) supports many useful forms.  No matter how powerful, specific applications will want to support additional, one-off constraints.  Because Julian is built on top of [library(clpfd)](http://www.swi-prolog.org/pldoc/man?section=clpfd), you can use its full power when working with dates.
