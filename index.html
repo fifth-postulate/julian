@@ -15,6 +15,12 @@
     <div id="documentation"></div>
     <script src="javascripts/scale.fix.js"></script>
     <script src="javascripts/Documentation.min.js"></script>
-    <script src="javascripts/app.js"></script>
+    <script>
+        var documentationNode = document.getElementById('documentation');
+        var app = Elm.Documentation.init({
+            node: documentationNode,
+            flags: "index.md"
+        });       
+    </script>
 </body>
 </html>
